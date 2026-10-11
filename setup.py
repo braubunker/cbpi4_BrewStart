@@ -8,19 +8,18 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="cbpi4_BrewStart",
-    version="1.1.0",
+    version="1.1.1",
     description="CraftBeerPi4: geplanter Braustart + Actor-Status aus aktivem Mash-Step",
     author="CraftBeerPi Community",
-    url="https://github.com/",
+    url="https://origin.cursor.com/jun-ior/cbpi-brew-schedule",
     include_package_data=True,
     package_data={
         "": ["*.txt", "*.rst", "*.yaml", "*.md"],
         "cbpi4_BrewStart": ["*", "*.txt", "*.rst", "*.yaml", "*.md"],
     },
     packages=["cbpi4_BrewStart"],
-    install_requires=[
-        "cbpi>=4.0.0.33",
-    ],
+    # Kein install_requires auf cbpi/cbpi4 — das Paket kommt von der CBPi-Installation
+    install_requires=[],
     long_description=long_description,
     long_description_content_type="text/markdown",
     license="GPLv3",

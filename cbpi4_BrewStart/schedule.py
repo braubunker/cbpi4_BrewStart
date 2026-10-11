@@ -12,6 +12,8 @@ DATETIME_FORMATS = (
     "%d.%m.%Y %H:%M",
     "%d.%m.%Y %H:%M:%S",
     "%d.%m.%y %H:%M",
+    "%d.%m.%y-%H:%M",  # DatetimeWaitStep-Format
+    "%d.%m.%Y-%H:%M",
     "%Y-%m-%dT%H:%M",
     "%Y-%m-%dT%H:%M:%S",
 )

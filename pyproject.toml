@@ -4,14 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cbpi4_BrewStart"
-version = "1.1.0"
+version = "1.1.1"
 description = "CraftBeerPi4: geplanter Braustart + Actor-Status aus aktivem Mash-Step"
 readme = "README.md"
 license = "GPL-3.0-or-later"
 requires-python = ">=3.8"
-dependencies = [
-    "cbpi>=4.0.0.33",
-]
+dependencies = []
 
 [project.optional-dependencies]
 test = ["pytest>=7.0"]

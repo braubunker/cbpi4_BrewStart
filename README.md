@@ -108,5 +108,25 @@ python -m pytest -q
 
 ## Changelog
 
+* **1.1.1** – BrewStart-Fix: Timer wie DatetimeWaitStep, robustere Props, keine kaputte cbpi-Dependency
 * **1.1.0** – `StepStatusActor`: aktiver Mash-/Rezept-Step als Actor-Status für DependentActor
 * **1.0.0** – Erste Version: Modes Today / DateTime / Daily, Countdown, Vorwarnung, AutoNext
+
+## Troubleshooting BrewStart
+
+Wenn der Step fehlt oder nicht weitergeht:
+
+```bash
+# neu installieren
+pipx runpip cbpi4 uninstall cbpi4_BrewStart || true
+pipx runpip cbpi4 install -e ~/cbpi4_BrewStart
+# Plugin geladen?
+pipx runpip cbpi4 list | grep -i brew
+# Logs
+journalctl -u craftbeerpi -n 100 --no-pager
+# oder:
+cbpi start
+```
+
+Im Step müssen **Mode** und **StartTime** (z.B. `06:30`) gesetzt sein.  
+DateTime-Modus: Datum in **StartDate** als `11.10.26-06:30` oder `2026-10-11 06:30`.

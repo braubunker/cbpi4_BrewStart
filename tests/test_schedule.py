@@ -62,6 +62,16 @@ def test_resolve_datetime_german_format_in_date_field():
     assert start == datetime(2026, 10, 12, 6, 15, 0)
 
 
+def test_resolve_datetime_waitstep_format():
+    start = resolve_start(
+        "DateTime",
+        start_time="",
+        start_date="12.10.26-06:15",
+        now=datetime(2026, 10, 1, 0, 0, 0),
+    )
+    assert start == datetime(2026, 10, 12, 6, 15, 0)
+
+
 def test_format_countdown():
     assert format_countdown(3661) == "1h 01m 01s"
     assert format_countdown(65) == "1m 05s"
