@@ -13,5 +13,7 @@ __all__ = [
 def setup(cbpi):
     """Register plugin types with the CraftBeerPi4 server."""
     from .brew_start import BrewStart
+    from .step_status_actor import StepStatusActor
 
     cbpi.plugin.register("BrewStart", BrewStart)
+    cbpi.plugin.register("StepStatusActor", StepStatusActor)

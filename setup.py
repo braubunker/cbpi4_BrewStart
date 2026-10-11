@@ -8,8 +8,8 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="cbpi4_BrewStart",
-    version="1.0.0",
-    description="CraftBeerPi4 Mash-Step: Brauvorgang zu einer geplanten Startzeit starten",
+    version="1.1.0",
+    description="CraftBeerPi4: geplanter Braustart + Actor-Status aus aktivem Mash-Step",
     author="CraftBeerPi Community",
     url="https://github.com/",
     include_package_data=True,

@@ -1,6 +1,9 @@
 # cbpi4_BrewStart
 
-CraftBeerPi4-Plugin: **Brauvorgang zu einer geplanten Startzeit starten**.
+CraftBeerPi4-Plugin mit zwei Bausteinen:
+
+1. **`BrewStart`** – Mash-Step: Brauvorgang zu einer geplanten Startzeit starten  
+2. **`StepStatusActor`** – virtueller Actor: ON, solange ein passender Step (z.B. MashStep) aktiv ist — nutzbar als Abhängigkeit mit [cbpi4-DependentActor](https://github.com/PiBrewing/cbpi4-DependentActor)
 
 Als erster Mash-Step in deinem Rezept wartet `BrewStart` bis zur eingestellten Uhrzeit (optional mit Datum), zeigt einen Countdown an und startet danach automatisch den nächsten Step — oder wartet auf deine Bestätigung.
 
@@ -57,15 +60,46 @@ BrewStart (warten bis 06:00)
 
 So kannst du abends alles vorbereiten, den Prozess starten und morgens beginnt das eigentliche Brauen zur gewünschten Zeit.
 
+## StepStatusActor – Mash-Step als Actor-Status
+
+In CraftBeerPi4 können Abhängigkeiten nur über **Actors** laufen (nicht direkt über Steps).  
+`StepStatusActor` spiegelt den aktiven Step als Actor-Status (ON/OFF).
+
+### Einrichten
+
+1. Hardware → Actor → neu → Typ **`StepStatusActor`**
+2. Parameter z.B.:
+
+| Parameter | Beispiel | Bedeutung |
+|-----------|----------|-----------|
+| **MatchMode** | `TypeContains` | Step-Typ enthält Text |
+| **MatchValue** | `Mash` | trifft `MashStep`, `BM_MashStep`, … |
+
+Weitere Modes: `AnyActive`, `TypeExact`, `NameContains`, `NameExact`.
+
+3. Optional DependentActor installieren:
+
+```bash
+pipx runpip cbpi4 install https://github.com/PiBrewing/cbpi4-DependentActor/archive/main.zip
+```
+
+4. DependentActor anlegen, z.B.:
+   - **Base** = echte Pumpe / Heizstab
+   - **ActorDependency** = dein `StepStatusActor`
+   - **DependencyType** = `Prerequisite` (Base nur ON, wenn Mash-Step läuft)
+
+Im Kettle / Dashboard den **DependentActor** verwenden (nicht den Basis-Actor).
+
 ## Hinweise
 
 - Die Systemzeit des Raspberry Pi / Hosts muss stimmen (Zeitzone prüfen: `timedatectl`).
 - Der Step muss **aktiv** sein (Brauprozess gestartet). Im gestoppten Zustand läuft kein Countdown.
 - Bei `AutoNext = No` bleibt der Step nach Erreichen der Zeit stehen, bis du in der Notification auf **Next Step** tippst.
+- `StepStatusActor` lässt sich nicht manuell schalten — der Status kommt nur vom aktiven Step.
 
 ## Entwicklung / Tests
 
-Die Zeitlogik ist ohne laufendes CraftBeerPi testbar:
+Die Zeit- und Match-Logik ist ohne laufendes CraftBeerPi testbar:
 
 ```bash
 python -m pip install pytest
@@ -74,4 +108,5 @@ python -m pytest -q
 
 ## Changelog
 
+* **1.1.0** – `StepStatusActor`: aktiver Mash-/Rezept-Step als Actor-Status für DependentActor
 * **1.0.0** – Erste Version: Modes Today / DateTime / Daily, Countdown, Vorwarnung, AutoNext
