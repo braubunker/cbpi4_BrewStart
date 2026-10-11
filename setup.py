@@ -11,7 +11,7 @@ setup(
     version="1.1.1",
     description="CraftBeerPi4: geplanter Braustart + Actor-Status aus aktivem Mash-Step",
     author="CraftBeerPi Community",
-    url="https://origin.cursor.com/jun-ior/cbpi-brew-schedule",
+    url="https://github.com/braubunker/cbpi4_BrewStart",
     include_package_data=True,
     package_data={
         "": ["*.txt", "*.rst", "*.yaml", "*.md"],

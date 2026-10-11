@@ -9,24 +9,21 @@ Als erster Mash-Step in deinem Rezept wartet `BrewStart` bis zur eingestellten U
 
 ## Installation
 
-Mit pipx (empfohlen, wenn CraftBeerPi4 darüber installiert ist):
+Direkt vom GitHub-Repo (auf dem Pi):
+
+```bash
+pipx runpip cbpi4 install https://github.com/braubunker/cbpi4_BrewStart/archive/main.zip
+sudo systemctl restart craftbeerpi
+```
+
+Repo: https://github.com/braubunker/cbpi4_BrewStart
+
+Lokal / editierbar:
 
 ```bash
 pipx runpip cbpi4 install .
-```
-
-Oder aus einem geklonten Repo / Zip:
-
-```bash
-pipx runpip cbpi4 install /pfad/zu/cbpi4_BrewStart
-# bzw. lokal editierbar:
+# oder:
 pipx runpip cbpi4 install -e /pfad/zu/cbpi4_BrewStart
-```
-
-Klassisch im cbpi-venv:
-
-```bash
-python -m pip install .
 ```
 
 Danach CraftBeerPi4 neu starten (`cbpi start` bzw. Service neu starten).
