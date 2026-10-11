@@ -1,4 +1,4 @@
-"""CraftBeerPi4 plugin: scheduled brew start + step status actor."""
+"""CraftBeerPi4 plugin: scheduled brew start + step status actors."""
 
 import logging
 
@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 try:
     from .schedule import format_countdown, format_start, resolve_start
-except Exception:  # pragma: no cover - package import fallback
+except Exception:  # pragma: no cover
     format_countdown = format_start = resolve_start = None  # type: ignore
 
 __all__ = [
@@ -29,10 +29,17 @@ def setup(cbpi):
         raise
 
     try:
-        from .step_status_actor import StepStatusActor
+        from .step_status_actor import (
+            BoilStatusActor,
+            MashStatusActor,
+            StepStatusActor,
+            WhirlpoolStatusActor,
+        )
 
         cbpi.plugin.register("StepStatusActor", StepStatusActor)
-        logger.info("Registered StepStatusActor")
+        cbpi.plugin.register("MashStatusActor", MashStatusActor)
+        cbpi.plugin.register("BoilStatusActor", BoilStatusActor)
+        cbpi.plugin.register("WhirlpoolStatusActor", WhirlpoolStatusActor)
+        logger.info("Registered StepStatusActor / Mash / Boil / Whirlpool")
     except Exception as exc:
-        # Actor ist optional — Step soll trotzdem laden
-        logger.exception("FAILED to register StepStatusActor: %s", exc)
+        logger.exception("FAILED to register StepStatus actors: %s", exc)

@@ -57,35 +57,34 @@ BrewStart (warten bis 06:00)
 
 So kannst du abends alles vorbereiten, den Prozess starten und morgens beginnt das eigentliche Brauen zur gewünschten Zeit.
 
-## StepStatusActor – Mash-Step als Actor-Status
+## Step-Status als Actor (Mash / Boil / Whirlpool)
 
 In CraftBeerPi4 können Abhängigkeiten nur über **Actors** laufen (nicht direkt über Steps).  
-`StepStatusActor` spiegelt den aktiven Step als Actor-Status (ON/OFF).
+Diese virtuellen Actors sind **ON**, solange der passende Step aktiv ist:
+
+| Actor-Typ | ON wenn … |
+|-----------|-----------|
+| **`MashStatusActor`** | MashIn / MashStep (Typ oder Name) |
+| **`BoilStatusActor`** | BoilStep / BM_BoilStep |
+| **`WhirlpoolStatusActor`** | Step-Typ oder **-Name** enthält Whirlpool (z.B. WaitStep „Whirlpool“) |
+| **`StepStatusActor`** | frei konfigurierbar (`StepKind`: Mash / Boil / Whirlpool / Kombinationen / Custom) |
 
 ### Einrichten
 
-1. Hardware → Actor → neu → Typ **`StepStatusActor`**
-2. Parameter z.B.:
-
-| Parameter | Beispiel | Bedeutung |
-|-----------|----------|-----------|
-| **MatchMode** | `TypeContains` | Step-Typ enthält Text |
-| **MatchValue** | `Mash` | trifft `MashStep`, `BM_MashStep`, … |
-
-Weitere Modes: `AnyActive`, `TypeExact`, `NameContains`, `NameExact`.
-
-3. Optional DependentActor installieren:
+1. Hardware → Actor → z.B. **`BoilStatusActor`** oder **`WhirlpoolStatusActor`** anlegen (kein Extra-Parameter nötig)
+2. Für Whirlpool den Step im Rezept z.B. **WaitStep** nennen: `Whirlpool`
+3. Optional DependentActor:
 
 ```bash
 pipx runpip cbpi4 install https://github.com/PiBrewing/cbpi4-DependentActor/archive/main.zip
 ```
 
-4. DependentActor anlegen, z.B.:
-   - **Base** = echte Pumpe / Heizstab
-   - **ActorDependency** = dein `StepStatusActor`
-   - **DependencyType** = `Prerequisite` (Base nur ON, wenn Mash-Step läuft)
+4. DependentActor:
+   - **Base** = echte Pumpe / Ventil / Heizstab  
+   - **ActorDependency** = `MashStatusActor` / `BoilStatusActor` / `WhirlpoolStatusActor`  
+   - **DependencyType** = `Prerequisite`
 
-Im Kettle / Dashboard den **DependentActor** verwenden (nicht den Basis-Actor).
+Im Kettle / Dashboard den **DependentActor** verwenden.
 
 ## Hinweise
 
@@ -105,6 +104,7 @@ python -m pytest -q
 
 ## Changelog
 
+* **1.2.0** – Mash-/Boil-/Whirlpool-StatusActors + StepKind-Presets (Whirlpool auch per Step-Name)
 * **1.1.1** – BrewStart-Fix: Timer wie DatetimeWaitStep, robustere Props, keine kaputte cbpi-Dependency
 * **1.1.0** – `StepStatusActor`: aktiver Mash-/Rezept-Step als Actor-Status für DependentActor
 * **1.0.0** – Erste Version: Modes Today / DateTime / Daily, Countdown, Vorwarnung, AutoNext
